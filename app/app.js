@@ -1,34 +1,65 @@
 "use strict";
+var app = angular.module("TodoApp", ["ngRoute"]);
 
-$scope.items = [
-  {
-    id: 0,
-    task: "mow the lawn",
-    isCompleted: false,
-    dueDate: "12/5/17",
-    assignedTo: "Greg",
-    location: "Joe's house",
-    urgency: "low",
-    dependencies: "sunshine, clippers, hat, water, headphones"
-  },
-  {
-    id: 1,
-    task: "grade quizzes",
-    isCompleted: false,
-    dueDate: "12/5/15",
-    assignedTo: "Christina",
-    location: "NSS",
-    urgency: "high",
-    dependencies: "wifi, tissues, vodka"
-  },
-  {
-    id: 2,
-    task: "take a nap",
-    isCompleted: false,
-    dueDate: "5/21/16",
-    assignedTo: "Joe",
-    location: "Porch of lakefront cabin",
-    urgency: "medium",
-    dependencies: "hammock, silence"
-  }
-];
+//used to authenticate user when navigating to other views
+let isAuth = (AuthFactory) => new Promise ( (resolve, reject) => {
+  // console.log("running isAuth");
+	AuthFactory.isAuthenticated()
+	.then ( (userExists) => {
+    console.log("userExists", userExists);
+		if (userExists){
+      console.log("Authenticated, go ahead.");
+			resolve();
+		}else {
+      console.log("Authentication rejected, go away.");
+			reject();
+		}
+	});
+});
+
+//run this right when the app loads
+app.run(($location, FBCreds) => {
+	let creds = FBCreds;
+	let authConfig = {
+		apiKey: creds.apiKey,
+		authDomain: creds.authDomain
+	};
+	firebase.initializeApp(authConfig);
+});
+
+app.config(function($routeProvider){
+  $routeProvider.
+  when('/', {
+    templateUrl: 'partials/login.html',
+    controller: "UserCtrl"
+  }).
+  when('/login', {
+    templateUrl: 'partials/login.html',
+    controller: "UserCtrl"
+  }).
+  when('/logout', {
+    templateUrl: 'partials/login.html',
+    controller: "UserCtrl"
+  }).
+  when('/items/list',{
+    templateUrl: "partials/item-list.html",
+    controller: "ItemListCtrl",
+    resolve: {isAuth}
+  }).
+  when('/items/new', {
+    templateUrl: "partials/item-form.html",
+    controller: "ItemNewCtrl",
+    resolve: {isAuth}
+  }).
+  when('/items/:itemId', {
+    templateUrl: "partials/item-details.html",
+    controller: "ItemViewCtrl",
+    resolve: {isAuth}
+  }).
+  when('/items/:itemId/edit', {
+    templateUrl: "partials/item-form.html",
+    controller: "ItemEditCtrl",
+    resolve: {isAuth}
+  }).
+  otherwise('/');
+});

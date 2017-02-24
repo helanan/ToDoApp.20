@@ -2,112 +2,49 @@
 <html>
 <head>
     <title>Todo App</title>
-    <link rel="stylesheet" type="text/css" href="lib/bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="lib/node_modules/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="css/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Permanent+Marker|Sanchez" rel="stylesheet">
 </head>
 <!-- TODO: Initialize our app -->
-<body>
+<body ng-app="TodoApp">
   <!-- TODO: Add a nav controller -->
-  <nav class="navbar navbar-default">
-    <div class="container-fluid">
-      <div class="navbar-header">
-        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-        <a class="navbar-brand" href="#">Todo App</a>
-      </div>
-      <!-- Collect the nav links, forms, and other content for toggling -->
-      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-        <!-- TODO: Use Angular to loop through nav items -->
-        <ul class="nav navbar-nav navbar-right">
-          <li><a href="#"></a></li>
-        </ul>
-      </div><!-- /.navbar-collapse -->
-    </div><!-- /.container-fluid -->
-  </nav>
+  <div ng-include="'partials/navbar.html'"></div>
 
   <!-- TODO: Add a controller for our todo list -->
-  <div>
-    <div class="row">
-      <div class="col-xs-6 col-xs-offset-3">
-        <!-- Let's call a js function from our HTML. wat? -->
-        <button class="col-xs-6 btn btn-success">New Item</button>
-        <button class="col-xs-6 btn btn-info"> All Items</button>
-      </div>
-    </div>
+
     <div class="row">
       <div class="col-xs-10 col-xs-offset-1 main-container">
-        <!-- TODO: Add boolean for hide/show -->
-        <div class="col-xs-12">
-          <h1>Todo List</h1>
-          <div class="row">
-            <div class="col-xs-6 col-xs-offset-3">
-              <div class="input-group">
-                <span class="input-group-btn">
-                  <button class="btn btn-default"><i class="fa fa-search" aria-hidden="true"></i></button>
-                </span>
-                <!-- TODO: Bind the input to our todo list -->
-                <input type="text" class="form-control" placeholder="Search for...">
-              </div>
-            </div>
-          </div>
-          <!-- TODO: Repeat over our todo list items and setup filtering by search term. Easy peasy -->
-          <div>
-            <div class="panel panel-default">
-              <div class="panel-body">
-                <div class="col-xs-1"><input type="checkbox" name=""/></div>
-                <div class="col-xs-7"></div>
-                <div class="col-xs-2"></div>
-                <div class="col-xs-1"></div>
-                <div class="col-xs-1"><button class="btn btn-danger">X</button></div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- TODO: Hide/show magic once more -->
-        <div class="col-xs-12">
-          <h1>New Todo</h1>
-          <form>
-            <div class="form-group">
-              <label>Task Description</label>
-              <!-- TODO: Hook up this form to our JS for submitting -->
-              <input type="text" class="form-control" placeholder="Some important task" />
-            </div>
-            <div class="form-group">
-              <label>Due Date</label>
-              <input type="text" class="form-control" placeholder="01/12/17" />
-            </div>
-            <div class="form-group">
-              <label>Assigned To</label>
-              <input type="text" class="form-control" placeholder="cohort 15" />
-            </div>
-            <div class="form-group">
-              <label>Location</label>
-              <input type="text" class="form-control" placeholder="attic" />
-            </div>
-            <div class="form-group">
-              <label>Urgency</label>
-              <input type="text" class="form-control" placeholder="low" />
-            </div>
-            <div class="form-group">
-              <label>Dependencies</label>
-              <input type="text" class="form-control" placeholder="brush chipper, monkey chow, the one ring" />
-            </div>
-            <!-- TODO: bind this button to a function -->
-            <button class="btn btn-default">Submit</button>
-          </form>
+          <div class="col-xs-12" ng-view></div>
         </div>
       </div>
-    </div>
-  </div>
 
-<script type="text/javascript" src="lib/bower_components/jquery/dist/jquery.min.js"></script>
-<script type="text/javascript" src="lib/bower_components/bootstrap/dist/js/bootstrap.min.js">
+
+<!-- dependencies -->
+<script type="text/javascript" src="lib/node_modules/jquery/dist/jquery.min.js"></script>
+<script type="text/javascript" src="lib/node_modules/bootstrap/dist/js/bootstrap.min.js">
 </script>
-<script type="text/javascript" src="lib/bower_components/angular/angular.min.js"></script>
+<script type="text/javascript" src="lib/node_modules/angular/angular.min.js"></script>
+<script type="text/javascript" src="lib/node_modules/angular-route/angular-route.min.js"></script>
+<script type="text/javascript" src="lib/node_modules/firebase/firebase.js"></script>
+<!-- controllers -->
 <script type="text/javascript" src="app/app.js"></script>
+<script type="text/javascript" src="app/values/fb-creds.js"></script>
+
+<script type="text/javascript" src="/app/factories/AuthFactory.js"></script>
+<script type="text/javascript" src="/app/factories/FilterFactory.js"></script>
+<script type="text/javascript" src="/app/factories/ItemFactory.js"></script>
+
+<script type="text/javascript" src="app/controllers/UserCtrl.js"></script>
+<script type="text/javascript" src="app/controllers/UserDetailsCtrl.js"></script>
+<script type="text/javascript" src="/app/controllers/NavCtrl.js"></script>
+<script type="text/javascript" src="/app/controllers/TodoCtrl.js"></script>
+<script type="text/javascript" src="/app/controllers/ItemListCtrl.js"></script>
+<script type="text/javascript" src="/app/controllers/ItemViewCtrl.js"></script>
+<script type="text/javascript" src="/app/controllers/ItemNewCtrl.js"></script>
+<script type="text/javascript" src="/app/controllers/ItemEditCtrl.js"></script>
+
+
+
 </body>
 </html>
